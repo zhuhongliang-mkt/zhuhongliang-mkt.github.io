@@ -122,11 +122,104 @@ body{font-family:'Noto Sans SC',sans-serif;background:var(--gray-50);color:var(-
   .section-nav{overflow-x:auto}
   #particle-canvas{display:none}
 }
+
+/* ── CHAT WIDGET ── */
+#chat-fab{display:flex;align-items:center;gap:10px;background:var(--blue);border:none;cursor:pointer;padding:10px 18px 10px 12px;border-radius:10px;box-shadow:0 4px 16px rgba(37,99,235,.35);transition:transform .18s,box-shadow .18s,background .18s;width:100%;font-family:'Noto Sans SC',sans-serif;margin-top:4px}
+#chat-fab:hover{background:#1d4ed8;transform:translateY(-1px);box-shadow:0 6px 22px rgba(37,99,235,.45)}
+#chat-fab-icon{width:34px;height:34px;background:rgba(255,255,255,.18);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+#chat-fab-icon svg{width:16px;height:16px;fill:white}
+#chat-fab-text{display:flex;flex-direction:column;align-items:flex-start}
+#chat-fab-label{font-size:13px;font-weight:600;color:white;line-height:1.3}
+#chat-fab-hint{font-size:10.5px;color:rgba(255,255,255,.75);margin-top:1px}
+#chat-panel{position:fixed;bottom:32px;right:32px;z-index:600;width:360px;max-width:calc(100vw - 32px);background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);display:flex;flex-direction:column;box-shadow:0 16px 48px rgba(37,99,235,.13);transform:translateY(16px) scale(.96);opacity:0;pointer-events:none;transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .2s;max-height:500px;overflow:hidden}
+#chat-panel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all}
+#chat-header{padding:14px 18px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between;background:var(--gray-50);border-radius:var(--radius-lg) var(--radius-lg) 0 0}
+#chat-header-left{display:flex;align-items:center;gap:10px}
+#chat-avatar{width:34px;height:34px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:13px;color:white;font-weight:600;font-family:'DM Serif Display',serif;flex-shrink:0}
+#chat-title{font-size:13.5px;font-weight:600;color:var(--gray-900)}
+#chat-sub{font-size:11px;color:var(--gray-400);margin-top:1px}
+#chat-close-btn{background:none;border:none;color:var(--gray-400);cursor:pointer;font-size:18px;line-height:1;padding:2px;transition:color .2s}
+#chat-close-btn:hover{color:var(--gray-800)}
+#chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;min-height:0}
+#chat-messages::-webkit-scrollbar{width:4px}
+#chat-messages::-webkit-scrollbar-thumb{background:var(--gray-200);border-radius:2px}
+.cm{display:flex;gap:8px;align-items:flex-end;animation:cmIn .2s ease}
+@keyframes cmIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.cm.user{flex-direction:row-reverse}
+.cm-av{width:26px;height:26px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600}
+.cm.bot .cm-av{background:var(--blue-light);color:var(--blue)}
+.cm.user .cm-av{background:var(--gray-100);color:var(--gray-600)}
+.cm-bubble{max-width:80%;padding:9px 13px;font-size:13px;line-height:1.65;border-radius:12px}
+.cm.bot .cm-bubble{background:var(--gray-50);border:1px solid var(--gray-200);color:var(--gray-800);border-bottom-left-radius:4px}
+.cm.user .cm-bubble{background:var(--blue);color:white;border-bottom-right-radius:4px}
+#chat-suggestions{padding:0 16px 10px;display:flex;flex-wrap:wrap;gap:6px}
+.cs-btn{font-size:11.5px;padding:5px 11px;border:1px solid var(--gray-200);background:var(--white);color:var(--gray-600);cursor:pointer;border-radius:100px;transition:all .15s;font-family:'Noto Sans SC',sans-serif}
+.cs-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+#chat-input-row{padding:10px 14px;border-top:1px solid var(--gray-200);display:flex;gap:8px;align-items:center}
+#chat-input{flex:1;border:1px solid var(--gray-200);background:var(--gray-50);color:var(--gray-800);padding:9px 13px;font-size:13px;font-family:'Noto Sans SC',sans-serif;outline:none;border-radius:100px;transition:border-color .2s}
+#chat-input:focus{border-color:var(--blue);background:var(--white)}
+#chat-input::placeholder{color:var(--gray-400)}
+#chat-send-btn{background:var(--blue);border:none;cursor:pointer;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+#chat-send-btn:hover{background:#1d4ed8}
+#chat-send-btn:disabled{opacity:.4;cursor:not-allowed}
+#chat-send-btn svg{width:15px;height:15px;fill:white}
+.chat-typing{display:flex;gap:4px;align-items:center;padding:2px 0}
+.chat-typing span{width:6px;height:6px;border-radius:50%;background:var(--gray-400);animation:tdot 1.2s infinite}
+.chat-typing span:nth-child(2){animation-delay:.2s}
+.chat-typing span:nth-child(3){animation-delay:.4s}
+@keyframes tdot{0%,60%,100%{opacity:.3}30%{opacity:1}}
+#worker-bar{background:var(--blue-light);border-bottom:1px solid var(--blue-mid);padding:8px 32px;display:flex;align-items:center;gap:12px;font-size:12px;color:var(--gray-600);flex-wrap:wrap}
+#worker-bar b{color:var(--blue)}
+#worker-bar-input{border:1px solid var(--blue-mid);background:var(--white);color:var(--gray-800);padding:5px 12px;font-size:12px;font-family:'DM Mono',monospace;outline:none;border-radius:6px;width:280px;max-width:100%}
+#worker-bar-input:focus{border-color:var(--blue)}
+#worker-bar-save{background:var(--blue);border:none;color:white;padding:5px 14px;font-size:12px;cursor:pointer;border-radius:6px;font-family:'Noto Sans SC',sans-serif}
+#worker-bar-close{background:none;border:none;color:var(--gray-400);cursor:pointer;font-size:16px;margin-left:auto}
+@media(max-width:740px){#chat-panel{right:16px;bottom:16px}#worker-bar{padding:8px 16px}}
 </style>
 </head>
 <body>
 
 <div id="progress-bar"></div>
+
+<!-- Worker 配置条 -->
+<div id="worker-bar">
+  <b>⚙ 配置聊天助手：</b><span>填入 Cloudflare Worker 地址后启用</span>
+  <input id="worker-bar-input" type="url" placeholder="https://your-worker.workers.dev" />
+  <button id="worker-bar-save" onclick="saveWorkerUrl()">保存</button>
+  <button id="worker-bar-close" onclick="document.getElementById('worker-bar').style.display='none'">✕</button>
+</div>
+
+<!-- 聊天面板 -->
+<div id="chat-panel">
+  <div id="chat-header">
+    <div id="chat-header-left">
+      <div id="chat-avatar">朱</div>
+      <div>
+        <div id="chat-title">朱洪亮的简历助手</div>
+        <div id="chat-sub">AI 驱动 · 随时回答招聘方的问题</div>
+      </div>
+    </div>
+    <button id="chat-close-btn" onclick="toggleChat()">✕</button>
+  </div>
+  <div id="chat-messages">
+    <div class="cm bot">
+      <div class="cm-av">朱</div>
+      <div class="cm-bubble">你好！我是朱洪亮的简历助手，可以回答关于他工作经历、项目案例、技能专长或求职意向的问题 😊</div>
+    </div>
+  </div>
+  <div id="chat-suggestions">
+    <button class="cs-btn" onclick="useSuggestion(this)">在美团做了什么？</button>
+    <button class="cs-btn" onclick="useSuggestion(this)">有哪些代表项目？</button>
+    <button class="cs-btn" onclick="useSuggestion(this)">期望薪资是多少？</button>
+    <button class="cs-btn" onclick="useSuggestion(this)">什么时候可以入职？</button>
+  </div>
+  <div id="chat-input-row">
+    <input id="chat-input" type="text" placeholder="输入问题…" onkeydown="if(event.key==='Enter')sendChatMessage()" />
+    <button id="chat-send-btn" onclick="sendChatMessage()">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
 
 <div class="claude-badge">
   <div class="claude-dot"></div>
@@ -153,15 +246,24 @@ body{font-family:'Noto Sans SC',sans-serif;background:var(--gray-50);color:var(-
           </div>
           186 1227 6353
         </a>
-        <a class="contact-item" href="mailto:zlight2022@qq.com">
+        <a class="contact-item" href="/cdn-cgi/l/email-protection#2b5147424c435f191b19196b5a5a05484446">
           <div class="contact-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
               <polyline points="22,6 12,13 2,6"/>
             </svg>
           </div>
-          zlight2022@qq.com
+          <span class="__cf_email__" data-cfemail="106a7c79777864222022225061613e737f7d">[email&#160;protected]</span>
         </a>
+        <button id="chat-fab" onclick="toggleChat()" title="与朱洪亮的简历助手对话">
+          <div id="chat-fab-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+          </div>
+          <div id="chat-fab-text">
+            <span id="chat-fab-label">与我的 AI 助手对话</span>
+            <span id="chat-fab-hint">快速了解我的经历与求职意向</span>
+          </div>
+        </button>
       </div>
     </div>
   </div>
@@ -355,7 +457,7 @@ body{font-family:'Noto Sans SC',sans-serif;background:var(--gray-50);color:var(-
 
 <footer class="footer">朱洪亮 · 品牌营销 · 2026 &nbsp;·&nbsp; Powered by Claude</footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* SCROLL PROGRESS + D. NAV SHADOW + F. BACK TO TOP */
 const bar = document.getElementById('progress-bar');
 const nav = document.querySelector('.section-nav');
@@ -481,12 +583,112 @@ function toggleCard(btn) {
   btn.childNodes[0].textContent = open ? '查看项目案例' : '收起项目案例';
   if (!open) {
     const items = col.querySelectorAll('.project-item');
-    items.forEach(item => item.classList.remove('proj-visible'));
     items.forEach((item, i) => {
-      setTimeout(() => item.classList.add('proj-visible'), 80 + i * 110);
+      setTimeout(() => item.classList.add('proj-visible'), i * 80);
     });
   }
 }
+
+/* ── CHAT WIDGET ── */
+let WORKER_URL = localStorage.getItem('chatWorkerUrl') || '';
+let chatOpen = false;
+let chatMessages = [];
+let chatLoading = false;
+
+// 隐藏配置条（如已配置）
+if (WORKER_URL) {
+  const bar = document.getElementById('worker-bar');
+  if (bar) bar.style.display = 'none';
+}
+
+function saveWorkerUrl() {
+  const val = document.getElementById('worker-bar-input').value.trim();
+  if (val) {
+    WORKER_URL = val;
+    localStorage.setItem('chatWorkerUrl', val);
+    document.getElementById('worker-bar').style.display = 'none';
+  }
+}
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chat-panel').classList.toggle('open', chatOpen);
+  if (chatOpen) document.getElementById('chat-input').focus();
+}
+
+function useSuggestion(btn) {
+  document.getElementById('chat-input').value = btn.textContent;
+  document.getElementById('chat-suggestions').style.display = 'none';
+  sendChatMessage();
+}
+
+function appendChatMsg(role, text) {
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'cm ' + role;
+  const av = role === 'bot' ? '朱' : '你';
+  div.innerHTML = `<div class="cm-av">${av}</div><div class="cm-bubble">${text.replace(/\n/g,'<br>')}</div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  return div;
+}
+
+function showChatTyping() {
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'cm bot'; div.id = 'chat-typing';
+  div.innerHTML = '<div class="cm-av">朱</div><div class="cm-bubble"><div class="chat-typing"><span></span><span></span><span></span></div></div>';
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function removeChatTyping() {
+  const el = document.getElementById('chat-typing');
+  if (el) el.remove();
+}
+
+async function sendChatMessage() {
+  if (chatLoading) return;
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+
+  if (!WORKER_URL) {
+    document.getElementById('worker-bar').style.display = 'flex';
+    document.getElementById('worker-bar-input').focus();
+    return;
+  }
+
+  input.value = '';
+  document.getElementById('chat-suggestions').style.display = 'none';
+  appendChatMsg('user', text);
+  chatMessages.push({ role: 'user', content: text });
+
+  chatLoading = true;
+  document.getElementById('chat-send-btn').disabled = true;
+  showChatTyping();
+
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: chatMessages }),
+    });
+    const data = await res.json();
+    removeChatTyping();
+    const reply = data?.content?.[0]?.text || '抱歉，暂时无法回答，请直接联系：186 1227 6353';
+    appendChatMsg('bot', reply);
+    chatMessages.push({ role: 'assistant', content: reply });
+  } catch {
+    removeChatTyping();
+    appendChatMsg('bot', '网络错误，请稍后再试，或直接联系：186 1227 6353');
+  } finally {
+    chatLoading = false;
+    document.getElementById('chat-send-btn').disabled = false;
+    input.focus();
+  }
+}
+
 </script>
 </body>
 </html>
